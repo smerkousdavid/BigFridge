@@ -1,0 +1,193 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Big Fridge</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+    <link href="https://cdn.jsdelivr.net/npm/gijgo@1.9.10/css/gijgo.min.css" rel="stylesheet" type="text/css">
+    <link type="text/css" rel="stylesheet" href="lib/simplePagination.css"/>
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gijgo@1.9.10/js/gijgo.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script type="text/javascript" src="lib/jquery.simplePagination.js"></script>
+    <script type="text/javascript" src="lib/jquery.canvasjs.min.js"></script>
+    <script type="text/javascript" src="js/api.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+  </head>
+  <body>
+    <div id="root">
+      <div class="grid-container">
+        <div class="header">
+          <div class="header-container">
+            <div class="icon-container">
+              <img class="fridge-icon" src="imgs/fridge.png" />
+              <h1 class="fridge-title">Big Fridge</h1>
+            </div>
+            <div class="extra-container">
+              <img id="stats-icon" src="imgs/stats.png" />
+              <p id="author-text">By<br>David Smerkous</p>
+            </div>
+          </div>
+        </div>
+        <div class="filter">
+          <div class="filter-container">
+            <p class="filter-main-title">Filter By</p>
+            <div class="filter-border"></div>
+            <ul class="filter-list">
+              <li class="filter-group">
+                <button class="filter-title">Stores</button>
+                <div class="filter-body">
+                  <label class="filter-category" v-for="store in fridge.raw.stores">{{ store }}
+                    <input type="checkbox" class="filter-checkmark" :name="store" value="store">
+                    <span class="checkmark"></span>
+                  </label>
+                </div>
+              </li>
+              <li class="filter-group">
+                <button class="filter-title">Types</button>
+                <div class="filter-body">
+                  <label class="filter-category" v-for="type in getFoodTypes()">{{ type }}
+                    <input type="checkbox" class="filter-checkmark" :name="type" value="type">
+                    <span class="checkmark"></span>
+                  </label>
+                </div>
+              </li>
+              <li class="filter-group">
+                <button class="filter-title">Purchase Date</button>
+                <div class="filter-body">
+                  <label class="filter-category">
+                    <b>Start</b>
+                    <input id="min-purchase" class="filter-date" value="01/01/2000"><br>
+                  </label>
+                  <label class="filter-category filter-sub-category">
+                    <b>End</b>
+                    <input id="max-purchase" class="filter-date" value="01/01/2030"><br>
+                  </label>
+                </div>
+              </li>
+              <li class="filter-group">
+                <button class="filter-title">Expiration Date</button>
+                <div class="filter-body">
+                  <label class="filter-category">
+                    <b>Expired Now</b>
+                    <input type="checkbox" class="filter-checkmark" name="expired" value="expired">
+                    <span class="checkmark"></span><br>
+                  </label>
+                  <label class="filter-category filter-sub-category">
+                    <b>Start</b>
+                    <input id="min-expiration" class="filter-date" value="01/01/2000"><br>
+                  </label>
+                  <label class="filter-category filter-sub-category">
+                    <b>End</b>
+                    <input id="max-expiration" class="filter-date" value="01/01/2030"><br>
+                  </label>
+                </div>
+              </li>
+              <li class="filter-group">
+                <button class="filter-title">Quantity</button>
+                <div class="filter-body">
+                  <label class="filter-category">
+                    <b>Min</b>
+                    <input id="min-quantity" class="filter-number" value="0"><br>
+                  </label>
+                  <label class="filter-category filter-sub-category">
+                    <b>Max</b>
+                    <input id="max-quantity" class="filter-number" value="100"><br>
+                  </label>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="search">
+          <div class="search-container">
+            <i class="fa fa-search search-icon"></i>
+            <input id="search" placeholder="Search your fridge" class="search-input">
+          </div>
+          <div class="search-border"></div>
+        </div>
+        <div class="results">
+          <ul class="result-container">
+            <div class="stats-container">
+              <div class="stats-left">
+                <p class="stats-text">{{ fridge.results }} results</p>
+                <p class="stats-text result-red">{{ fridge.expired }} expired</p>
+                <p class="stats-text">{{ fridge.purchasedAfterExpiration }} purchased after expiration</p>
+              </div>
+              <div class="stats-right">
+                <select id="sort" name="sort" defaultValue="">
+                  <option value="" disabled hidden selected>Sort By</option>
+                  <option value="name">Name</option>
+                  <option value="type">Type of Food</option>
+                  <option value="quantity">Quantity</option>
+                  <option value="store">Store Name</option>
+                  <option value="purchaseDate">Purchase Date</option>
+                  <option value="expirationDate">Expiration Date</option>
+                </select>
+                <select id="reverse" name="reverse" defaultValue="ascending">
+                    <option value="ascending">Ascending</option>
+                    <option value="descending">Descending</option>
+                </select>
+              </div>
+            </div>
+            <p class="no-results-text" v-if="fridge.data.length === 0">There's nothing here!<br>Try reducing the amount of applied filters</p>
+            <li class="result-item-container" v-for="food in fridge.data">
+              <div class="result-center">
+                <div class="result-left-align">
+                  <img class="result-image" :src="`imgs/${food.name.toLowerCase().replace(' ', '-')}.jpg`">
+                  <p class="result-name">
+                    {{ food.name }} - {{ food.type }}
+                  </p>
+                </div>
+                <div class="result-right-align">
+                  <div class="result-list">
+                    <p class="result-item">
+                      <b>Quantity</b><br>{{ food.quantity }}
+                    </p>
+                    <p v-if="getDaysUntil(food.purchaseDate) >= 0" class="result-item">
+                      <b>Purchased</b><br>Buy in {{ getDaysUntil(food.purchaseDate) }} days
+                    </p>
+                    <p v-else class="result-item">
+                      <b>Purchased</b><br>{{ -getDaysUntil(food.purchaseDate) }} days ago
+                    </p>
+                    <p v-if="getDaysUntil(food.expirationDate) >= 0" class="result-item">
+                      <b>Expires</b><br>{{ getDaysUntil(food.expirationDate) }} days
+                    </p>
+                    <p v-else class="result-item result-red">
+                      <b>Expired</b><br>{{ -getDaysUntil(food.expirationDate) }} days ago
+                    </p>
+                    <p class="result-item">
+                      <b>Store</b><br>{{ food.store }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <div v-if="fridge.data.length > 0" id="page-selector"></div>
+          </ul>
+        </div>
+      </div>
+      <div id="stats" class="modal">
+        <div class="modal-body">
+          <div class="modal-header">
+            <div class="area-overlap modal-title">
+              Statistics
+            </div>
+            <div class="modal-extra">
+              <div class="modal-stats">
+                <p class="stats-text modal-stat-text">{{ fridge.results }} food items</p>
+                <p class="stats-text modal-stat-text result-red">{{ fridge.expired }} have expired</p>
+                <p class="stats-text modal-stat-text">{{ fridge.purchasedAfterExpiration }} were purchased after expiration</p>
+              </div>
+            </div>
+          </div>
+          <div class="year-chart"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

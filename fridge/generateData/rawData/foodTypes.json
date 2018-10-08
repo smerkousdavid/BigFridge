@@ -1,0 +1,165 @@
+[
+    {
+        "name": "Asparagus",
+        "type": "Produce"
+    },
+    {
+        "name": "Cabbage",
+        "type": "Produce"
+    },
+    {
+        "name": "Green onions",
+        "type": "Produce"
+    },
+    {
+        "name": "Lettuce",
+        "type": "Produce"
+    },
+    {
+        "name": "Peas",
+        "type": "Produce"
+    },
+    {
+        "name": "Radish",
+        "type": "Produce"
+    },
+    {
+        "name": "Rhubarb",
+        "type": "Produce"
+    },
+    {
+        "name": "Spinach",
+        "type": "Produce"
+    },
+    {
+        "name": "Turnips",
+        "type": "Produce"
+    },
+    {
+        "name": "Watercress",
+        "type": "Produce"
+    },
+    {
+        "name": "Basil",
+        "type": "Produce"
+    },
+    {
+        "name": "Broccoli",
+        "type": "Produce"
+    },
+    {
+        "name": "Cabbage",
+        "type": "Produce"
+    },
+    {
+        "name": "Carrots",
+        "type": "Produce"
+    },
+    {
+        "name": "Cauliflower",
+        "type": "Produce"
+    },
+    {
+        "name": "Cucumbers",
+        "type": "Produce"
+    },
+    {
+        "name": "Eggplant",
+        "type": "Produce"
+    },
+    {
+        "name": "Garlic",
+        "type": "Produce"
+    },
+    {
+        "name": "Onions",
+        "type": "Produce"
+    },
+    {
+        "name": "Okra",
+        "type": "Produce"
+    },
+    {
+        "name": "Peppers",
+        "type": "Produce"
+    },
+    {
+        "name": "Potatoes",
+        "type": "Produce"
+    },
+    {
+        "name": "Tomatoes",
+        "type": "Produce"
+    },
+    {
+        "name": "Zucchini",
+        "type": "Produce"
+    },
+    {
+        "name": "Beets",
+        "type": "Produce"
+    },
+    {
+        "name": "Fennel",
+        "type": "Produce"
+    },
+    {
+        "name": "Watermelon",
+        "type": "Produce"
+    },
+    {
+        "name": "Arugula",
+        "type": "Produce"
+    },
+    {
+        "name": "Chard",
+        "type": "Produce"
+    },
+    {
+        "name": "Rutabaga",
+        "type": "Produce"
+    },
+
+    {
+        "name": "Milk",
+        "type": "Dairy"
+    },
+    {
+        "name": "Cheese",
+        "type": "Dairy"
+    },
+    {
+        "name": "Butter",
+        "type": "Dairy"
+    },
+    {
+        "name": "Yoghurt",
+        "type": "Dairy"
+    },
+    {
+        "name": "Ice cream",
+        "type": "Dairy"
+    },
+
+    {
+        "name": "Chicken",
+        "type": "Meat"
+    },
+    {
+        "name": "Fish",
+        "type": "Meat"
+    },
+    {
+        "name": "Beef",
+        "type": "Meat"
+    },
+    {
+        "name": "Pork",
+        "type": "Meat"
+    },
+    {
+        "name": "Lamb",
+        "type": "Meat"
+    }
+
+]
