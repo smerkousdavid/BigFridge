@@ -286,7 +286,7 @@ fridge.get('/stats', (request, response) => {
 /*
  * App main
  */
-fridge.listen(configs.server.port, (err) => {
+fridge.listen(process.env.PORT || configs.server.port, (err) => {
   if (err) {
     console.log('Fridge server error', err);
   }
