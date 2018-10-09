@@ -188,7 +188,9 @@ fridge.get('/api', (request, response) => {
 
     // load only the current successful filtered page
     if (passedFilter > (options.page - 1) * options.load &&
-            filtered.length < options.load) {
+            filtered.length < options.load && options.sortby === null) {
+      filtered.push(food);
+    } else if (options.sortby !== null) {
       filtered.push(food);
     }
 
@@ -203,8 +205,9 @@ fridge.get('/api', (request, response) => {
   }
 
   if (options.sortby !== null) {
-    filtered = util.sortJson(filtered.slice(),
-        options.sortby, options.reversed === 'true');
+    util.sortJson(filtered, options.sortby, options.reversed === 'true');
+    filtered = filtered.slice((options.page - 1) * options.load,
+        options.page * options.load);
   }
 
   response.json({results: passedFilter, data: filtered,
